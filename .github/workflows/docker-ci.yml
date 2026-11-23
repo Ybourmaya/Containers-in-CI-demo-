@@ -1,0 +1,39 @@
+name: Docker CI Pipeline
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image with version tag
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          push: false
+          build-args: |
+            APP_VERSION=v1.0.${{ github.run_number }}
+          tags: |
+            containers-ci-demo:v1.0.${{ github.run_number }}
+
+      - name: Run Docker container
+        run: |
+          docker run --rm containers-ci-demo:v1.0.${{ github.run_number }}
+
+      - name: Display Docker image
+        run: |
+          docker images containers-ci-demo
