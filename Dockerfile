@@ -1,10 +1,17 @@
-FROM python:3.12-slim           //selects python base image
+# Selects the Python base image
+FROM python:3.12-slim
 
-WORKDIR /app                   //The working directory inside the container, where our application is copied and executed
+# Sets the working directory inside the container
+WORKDIR /app
 
-COPY app.py .                  //puts my program inside the image
+# Copies my program into the image
+COPY app.py .
 
-ARG APP_VERSION=development    //allows GitHub Actions to pass the application version when building the Docker image
-ENV APP_VERSION=$APP_VERSION   //stores that version as an environment variable
+# Allows GitHub Actions to pass the application version
+ARG APP_VERSION=development
 
-CMD ["python", "app.py"]      //tells the container what to run when it starts
+# Stores that version as an environment variable
+ENV APP_VERSION=$APP_VERSION
+
+# Tells the container what to run when it starts
+CMD ["python", "app.py"]
