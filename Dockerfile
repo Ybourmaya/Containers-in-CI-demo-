@@ -5,7 +5,7 @@ FROM python:3.12-slim
 WORKDIR /app
 
 # Copies my program into the image
-COPY app.py .
+COPY application.py .
 
 # Allows GitHub Actions to pass the application version
 ARG APP_VERSION=development
